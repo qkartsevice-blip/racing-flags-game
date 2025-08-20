@@ -35,12 +35,13 @@ const flagDisplay = document.getElementById('flag-display');
 const questionText = document.getElementById('question-text');
 const optionButtons = document.querySelectorAll('.option-btn');
 const resultMessage = document.getElementById('result-message');
+const restartButton = document.getElementById('restart-btn'); // 取得「再玩一次」按鈕
+const shareLink = document.getElementById('share-link'); // 取得連結
 
 let currentFlagIndex = 0;
-let score = 0; // 新增分數變數
+let score = 0;
 
 function loadQuestion() {
-    // 檢查是否已完成所有題目
     if (currentFlagIndex >= flags.length) {
         endGame();
         return;
@@ -49,22 +50,24 @@ function loadQuestion() {
     const currentFlag = flags[currentFlagIndex];
     flagDisplay.innerHTML = `<img src="${currentFlag.image}" alt="Racing Flag">`;
     questionText.textContent = `這是什麼旗號？ (第 ${currentFlagIndex + 1} 題)`;
-    resultMessage.textContent = ''; // 清空上一題的結果訊息
+    resultMessage.textContent = '';
 
-    // 隨機排列選項
     const shuffledOptions = shuffleArray([...currentFlag.options]);
 
     optionButtons.forEach((button, index) => {
         button.textContent = shuffledOptions[index];
-        button.style.display = 'inline-block'; // 顯示按鈕
-        // 為按鈕添加點擊事件，並傳入正確答案
+        button.style.display = 'inline-block';
         button.onclick = () => processAnswer(button.textContent, currentFlag.correctAnswer);
     });
+
+    // 隱藏按鈕和連結，以防萬一
+    restartButton.style.display = 'none';
+    shareLink.style.display = 'none';
 }
 
 function processAnswer(selectedOption, correctAnswer) {
     if (selectedOption === correctAnswer) {
-        score++; // 答對則加分
+        score++;
         resultMessage.textContent = '答對了！';
         resultMessage.style.color = 'green';
     } else {
@@ -72,23 +75,30 @@ function processAnswer(selectedOption, correctAnswer) {
         resultMessage.style.color = 'red';
     }
 
-    // 無論答對或答錯，都自動進入下一題
     currentFlagIndex++;
-    setTimeout(loadQuestion, 1500); // 1.5秒後載入下一題
+    setTimeout(loadQuestion, 1500);
 }
 
 function endGame() {
-    // 隱藏遊戲元素，顯示最終分數
     flagDisplay.innerHTML = '';
     questionText.textContent = '';
     optionButtons.forEach(btn => btn.style.display = 'none');
     resultMessage.textContent = `遊戲結束！你的總得分是：${score} / ${flags.length}。`;
     resultMessage.style.color = 'blue';
+    
+    // 顯示「再玩一次」按鈕和連結
+    restartButton.style.display = 'inline-block';
+    shareLink.style.display = 'inline-block';
 
-    // 可以在這裡加入一個「重新開始」按鈕，讓玩家可以再次挑戰
+    // 設定「再玩一次」按鈕的點擊事件
+    restartButton.onclick = () => {
+        // 重設遊戲狀態並重新開始
+        currentFlagIndex = 0;
+        score = 0;
+        loadQuestion();
+    };
 }
 
-// 隨機排列陣列的工具函式
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -97,5 +107,4 @@ function shuffleArray(array) {
     return array;
 }
 
-// 遊戲開始
 loadQuestion();
