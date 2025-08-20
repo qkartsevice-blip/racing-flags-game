@@ -35,8 +35,8 @@ const flagDisplay = document.getElementById('flag-display');
 const questionText = document.getElementById('question-text');
 const optionButtons = document.querySelectorAll('.option-btn');
 const resultMessage = document.getElementById('result-message');
-const restartButton = document.getElementById('restart-btn'); // 取得「再玩一次」按鈕
-const shareLink = document.getElementById('share-link'); // 取得連結
+const restartButton = document.getElementById('restart-btn');
+const shareLink = document.getElementById('share-link');
 
 let currentFlagIndex = 0;
 let score = 0;
@@ -60,7 +60,6 @@ function loadQuestion() {
         button.onclick = () => processAnswer(button.textContent, currentFlag.correctAnswer);
     });
 
-    // 隱藏按鈕和連結，以防萬一
     restartButton.style.display = 'none';
     shareLink.style.display = 'none';
 }
@@ -86,13 +85,10 @@ function endGame() {
     resultMessage.textContent = `遊戲結束！你的總得分是：${score} / ${flags.length}。`;
     resultMessage.style.color = 'blue';
     
-    // 顯示「再玩一次」按鈕和連結
     restartButton.style.display = 'inline-block';
     shareLink.style.display = 'inline-block';
 
-    // 設定「再玩一次」按鈕的點擊事件
     restartButton.onclick = () => {
-        // 重設遊戲狀態並重新開始
         currentFlagIndex = 0;
         score = 0;
         loadQuestion();
