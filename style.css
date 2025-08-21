@@ -16,6 +16,10 @@ body {
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
+h1 {
+    color: #333;
+}
+
 #flag-display img {
     width: 200px;
     height: 150px;
@@ -25,7 +29,8 @@ body {
 
 .options-container {
     display: flex;
-    justify-content: space-around;
+    flex-direction: column; /* 讓選項按鈕垂直排列 */
+    gap: 10px; /* 按鈕間的間距 */
     margin-top: 1em;
 }
 
@@ -48,4 +53,24 @@ body {
     margin-top: 1em;
     font-size: 1.2em;
     font-weight: bold;
+}
+
+#restart-btn {
+    padding: 12px 25px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    border: 1px solid #007bff; /* 藍色邊框 */
+    background-color: #007bff; /* 藍色背景 */
+    color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* 陰影 */
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    margin-top: 10px;
+}
+
+#restart-btn:hover {
+    background-color: white; /* Hover 時背景變白 */
+    color: #007bff; /* Hover 時文字變藍色 */
+    border-color: #0056b3; /* Hover 時邊框稍微變深 */
 }
