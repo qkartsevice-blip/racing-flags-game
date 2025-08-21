@@ -37,6 +37,7 @@ const optionButtons = document.querySelectorAll('.option-btn');
 const resultMessage = document.getElementById('result-message');
 const restartButton = document.getElementById('restart-btn');
 const shareLink = document.getElementById('share-link');
+const resultImageContainer = document.getElementById('result-image-container'); // 取得新的圖片區塊
 
 let currentFlagIndex = 0;
 let score = 0;
@@ -51,6 +52,7 @@ function loadQuestion() {
     flagDisplay.innerHTML = `<img src="${currentFlag.image}" alt="Racing Flag">`;
     questionText.textContent = `這是什麼旗號？ (第 ${currentFlagIndex + 1} 題)`;
     resultMessage.textContent = '';
+    resultImageContainer.innerHTML = ''; // 清空圖片
 
     const shuffledOptions = shuffleArray([...currentFlag.options]);
 
@@ -84,6 +86,9 @@ function endGame() {
     optionButtons.forEach(btn => btn.style.display = 'none');
     resultMessage.textContent = `遊戲結束！你的總得分是：${score} / ${flags.length}。`;
     resultMessage.style.color = 'blue';
+    
+    // 在這裡插入圖片
+    resultImageContainer.innerHTML = `<img src="images/LOGO.jpg" alt="遊戲結束">`;
     
     restartButton.style.display = 'inline-block';
     shareLink.style.display = 'inline-block';
