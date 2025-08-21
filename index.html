@@ -13,7 +13,8 @@
             min-height: 100vh; /* 確保 body 至少有視窗高度 */
             margin: 0;
             background-color: #f0f0f0; /* 可選：讓背景顏色更明顯 */
-            font-family: sans-serif;
+            /* 使用系統字體 */
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
         }
 
         .game-container {
@@ -67,6 +68,15 @@
             color: #007bff;
             text-decoration: none;
         }
+
+        /* 新增的預約連結樣式 */
+        #book-link {
+            display: block;
+            margin-top: 20px;
+            font-weight: bold;
+            color: #ff5722;
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
@@ -85,6 +95,7 @@
 	<br>
 	<br>
         <a id="share-link" href="https://reurl.cc/NxYbQ5" target="_blank" style="display: none;">到 Facebook 查看更多資訊</a>
+        <a id="book-link" href="https://lin.ee/kGa2Hf9" target="_blank" style="display: none;">點擊預約遊玩小小卡丁車</a>
     </div>
 
     <script>
@@ -127,6 +138,7 @@
         const resultMessage = document.getElementById('result-message');
         const restartButton = document.getElementById('restart-btn');
         const shareLink = document.getElementById('share-link');
+        const bookLink = document.getElementById('book-link'); // 取得新的預約連結
         const resultImageContainer = document.getElementById('result-image-container');
 
         let currentFlagIndex = 0;
@@ -154,6 +166,7 @@
 
             restartButton.style.display = 'none';
             shareLink.style.display = 'none';
+            bookLink.style.display = 'none'; // 新增：隱藏預約連結
         }
 
         function processAnswer(selectedOption, correctAnswer) {
@@ -174,13 +187,24 @@
             flagDisplay.innerHTML = '';
             questionText.textContent = '';
             optionButtons.forEach(btn => btn.style.display = 'none');
-            resultMessage.textContent = `遊戲結束！你的總得分是：${score} / ${flags.length}。`;
+            
+            let feedback = '';
+            if (score === flags.length) {
+                feedback = '你對賽車旗號瞭若指掌！真是個賽車專家！';
+            } else if (score >= flags.length / 2) {
+                feedback = '表現不錯！你已經掌握了大部分旗號的意義。';
+            } else {
+                feedback = '別灰心！多練習幾次，你也能成為賽車高手！';
+            }
+
+            resultMessage.innerHTML = `遊戲結束！你的總得分是：${score} / ${flags.length}。<br>${feedback}`;
             resultMessage.style.color = 'blue';
             
             resultImageContainer.innerHTML = `<img src="images/LOGO.jpg" alt="遊戲結束" class="result-image">`;
             
             restartButton.style.display = 'inline-block';
             shareLink.style.display = 'inline-block';
+            bookLink.style.display = 'block'; // 新增：顯示預約連結
 
             restartButton.onclick = () => {
                 currentFlagIndex = 0;
